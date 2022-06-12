@@ -2,26 +2,22 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import stripe from "src/utils/getStripe";
 import single from "src/utils/Single";
-import { Metadata, WrongMethod, CategoryMap } from "src/utils/Types";
-
-interface CardStatistics {
-  currency: string;
-  total_transactions: number;
-  total_spend: number;
-  average_spend: number;
-  categories: CategoryMap;
-}
+import { Metadata, WrongMethod, CardStatistics } from "src/utils/Types";
+import { getMoneyInReadableForm } from "src/utils/helpers";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<CardStatistics | WrongMethod>
 ) {
   if (req.method == "GET") {
+    // get card information
     const cardObject: Stripe.Issuing.Card = await stripe.issuing.cards.retrieve(
       process.env.CARD_ID
     );
     let metadata: Metadata = cardObject.metadata as Metadata;
 
+    // create metadata if necessary
+    // run once for sure, or run if the metadata keys get deleted
     if (single.done == false || Object.keys(metadata).length === 0) {
       const metadataResponse = await fetch(
         "http://localhost:3000/api/postCardMetadata",
@@ -31,21 +27,25 @@ export default async function handler(
       single.done = true;
     }
 
+    // set statistics
+
     const cardStatistics: CardStatistics = {
-      currency: cardObject.currency,
       total_transactions: +metadata.total_transactions,
-      total_spend: +metadata.total_spend,
+      total_spend: getMoneyInReadableForm(
+        cardObject.currency,
+        Math.abs(+metadata.total_spend)
+      ),
 
       // convert both to numbers from strings
       // divide by 100 if its not a zero decimal currency
       // then make the precision to 2 decimal places
-      average_spend: +(
-        +metadata.total_spend /
-        +metadata.total_transactions /
-        100
-      ).toFixed(2),
+      average_spend: getMoneyInReadableForm(
+        cardObject.currency,
+        Math.abs(+metadata.total_spend / +metadata.total_transactions)
+      ),
 
-      categories: JSON.parse(cardObject.metadata.categories),
+      // string of a map to object
+      categories: JSON.parse(metadata.categories),
     };
 
     return res.status(200).json(cardStatistics);

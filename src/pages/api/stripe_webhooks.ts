@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import stripe from "src/utils/getStripe";
 import { CategoryMap, Metadata } from "src/utils/Types";
+import { addCategoryToMap } from "src/utils/helpers";
 
-// TODO: refactor in some way?
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -12,8 +12,9 @@ export default async function handler(
     const event = req.body;
     if (event.type === "issuing_transaction.created") {
       const transaction: Stripe.Issuing.Transaction = event.data.object;
+
+      // don't waste time making stripe calls if the webhook was for a different card
       if (event.data.object.card !== process.env.CARD_ID) {
-        // don't waste time making calls if the webhook was on a different card
         return res.status(200).json({ received: true });
       }
 
@@ -22,9 +23,11 @@ export default async function handler(
         await stripe.issuing.cards.retrieve(process.env.CARD_ID);
 
       // update metadata
-      // note: I wanted the typing for Metadata but this suggesion I found feels hacky?
+      // note: I wanted the typing for Metadata and typescript recommended to this
+      // but this suggestion feels hacky?
       const metadata: Metadata = cardObject.metadata as unknown as Metadata;
 
+      // the metadata has to be in string form
       metadata.total_transactions = (
         +metadata.total_transactions + 1
       ).toString();
@@ -35,12 +38,9 @@ export default async function handler(
 
       const category: string = transaction.merchant_data.category;
       const category_map: CategoryMap = JSON.parse(metadata.categories);
-      if (category_map.hasOwnProperty(category)) {
-        category_map[category] += 1;
-      } else {
-        category_map[category] = 1;
-      }
-      metadata.categories = JSON.stringify(category_map);
+      metadata.categories = JSON.stringify(
+        addCategoryToMap(category_map, category)
+      );
 
       // push metadata
       await stripe.issuing.cards.update(process.env.CARD_ID, {

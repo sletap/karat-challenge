@@ -10,7 +10,7 @@ export default async function handler(
       destination_balance: "issuing",
       amount: 10000,
       currency: "usd",
-      description: "Top-up for Issuing, June 11, 2022",
+      description: "Top-up for Issuing",
       statement_descriptor: "Top-up",
     });
     return res.status(200).json(topup);
