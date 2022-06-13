@@ -1,4 +1,4 @@
-import { Box, Center, Grid, GridItem, Spinner, theme } from "@chakra-ui/react";
+import { Box, Text, Grid, GridItem, theme } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import useSwr from "swr";
@@ -8,16 +8,17 @@ import DoughnutChart from "src/components/DoughnutChart";
 import { CardStatistics } from "src/utils/Types";
 import Header from "src/components/Header";
 import Statistic from "src/components/Statistic";
+
 const Home: NextPage = () => {
   const { data, error } = useSwr<CardStatistics>(
     "/api/getCardholderStatistics",
     fetcher
   );
 
-  if (error) return <div>Failed to load credit card</div>;
+  if (error) return <Text align="center">Failed to load cardholder stats</Text>;
 
   return (
-    <Box bg={""}>
+    <Box>
       <Head>
         <title>Karat Dashboard</title>
         <meta name="description" content="Karat Card Dashboard" />
@@ -33,13 +34,13 @@ const Home: NextPage = () => {
         gap={5}
         margin={10}
       >
-        <GridItem rowSpan={2} colSpan={3} borderRadius={30} bg={""}>
+        <GridItem rowSpan={2} colSpan={3} borderRadius={30}>
           <DoughnutChart statistics={data} />
         </GridItem>
         <GridItem
           rowSpan={1}
           colSpan={1}
-          bg={theme.colors.blackAlpha[500]}
+          bg={theme.colors.blackAlpha[400]}
           borderRadius={30}
         >
           <Statistic title="Total Spend" data={data} stat="total_spend" />
@@ -47,13 +48,13 @@ const Home: NextPage = () => {
         <GridItem
           rowSpan={1}
           colSpan={1}
-          bg={theme.colors.blackAlpha[500]}
+          bg={theme.colors.blackAlpha[400]}
           borderRadius={30}
         >
           <Statistic title="Average Spend" data={data} stat="average_spend" />
         </GridItem>
       </Grid>
-      <Box margin={10} bg={theme.colors.blackAlpha[500]}>
+      <Box margin={10} bg={theme.colors.blackAlpha[400]}>
         <AuthorizationsTable />
       </Box>
     </Box>

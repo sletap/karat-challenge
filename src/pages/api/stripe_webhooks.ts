@@ -23,9 +23,7 @@ export default async function handler(
         await stripe.issuing.cards.retrieve(process.env.CARD_ID);
 
       // update metadata
-      // note: I wanted the typing for Metadata and typescript recommended this format
-      // but this suggestion feels hacky?
-      const metadata: Metadata = cardObject.metadata as unknown as Metadata;
+      const metadata: Metadata = cardObject.metadata as Metadata;
 
       // the metadata has to be in string form
       metadata.total_transactions = (
