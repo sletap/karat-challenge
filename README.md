@@ -2,8 +2,11 @@
 
 ## Getting Started
 
-First, update `.env.local` with keys and a card id
-Second, run the development server:
+1. run `stripe listen --forward-to localhost:3000/api/getStripeWebhooks`
+
+2. update `.env.local` with keys and a card id. Get the webhook key from the above command (I have these set in the env.local file for quick testing purposes)
+
+3. run the development server:
 
 ```bash
 npm run dev
@@ -25,7 +28,7 @@ Now on a fresh new page load, display all of the information that we have in the
 
 ## How much time did I spend?
 
-probably somewhere around 15 hours, split up across multiple days
+probably somewhere around 15 hours, split up across a couple days
 
 It was my first time using Next, TypeScript, Chakra, and the Stripe API so there was a little bit of a fun learning curve there!
 
@@ -46,6 +49,8 @@ The caching of data as mentioned above
 
 Getting a code review from someone who is more familiar with typescript would be great to learn more about best practices as well!
 
+Writing tests -- I would definitely write them if this were to go out in production, but didn't in the interest of time. Can definitely do this as a follow up if required!
+
 ## Open Questions:
 
 Can a single card have charges in multiple currencies? I couldn't see an example of this nor could I add one from the console, but if this is true than the average and sum functions would need to be changed. This is definitely something that I would spend more time looking into if I worked on this project more!
@@ -53,3 +58,9 @@ Can a single card have charges in multiple currencies? I couldn't see an example
 ## Thank you!
 
 Thank you for taking the time to take a look at this! I'm happy to make changes and improvements based on your comments :)
+
+<!-- NOTES -->
+<!-- TEST A CARD WITH NO TRANSACTIONS  -->
+<!-- TEST A CARD WITH NO AUTHORIZATIONS -->
+<!-- TEST A CARD WITH NO AUTHORIZATIONS AND NO TRANSACTIONS -->
+<!-- TEST A CARD WITH NON USD CURRENCY -->

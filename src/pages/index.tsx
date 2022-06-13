@@ -11,7 +11,7 @@ import Statistic from "src/components/Statistic";
 
 const Home: NextPage = () => {
   const { data, error } = useSwr<CardStatistics>(
-    "/api/getCardholderStatistics",
+    "/api/getCardStatistics",
     fetcher
   );
 

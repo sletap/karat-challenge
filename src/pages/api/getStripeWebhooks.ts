@@ -3,13 +3,37 @@ import Stripe from "stripe";
 import stripe from "src/utils/getStripe";
 import { CategoryMap, Metadata } from "src/utils/Types";
 import { addCategoryToMap } from "src/utils/helpers";
+import { buffer } from "micro";
+
+// to get the webhook to process properly
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const endpointSecret = process.env.WEBHOOK_SECRET_KEY;
   if (req.method == "POST") {
-    const event = req.body;
+    let event;
+    const requestBuffer = await buffer(req);
+    const signature = req.headers["stripe-signature"] as string;
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        requestBuffer.toString(),
+        signature,
+        endpointSecret
+      );
+    } catch (err) {
+      return res
+        .status(401)
+        .send({ message: "Stripe Event Construction Failed" });
+    }
+
     if (event.type === "issuing_transaction.created") {
       const transaction: Stripe.Issuing.Transaction = event.data.object;
 

@@ -8,7 +8,7 @@ export default async function handler(
   if (req.method == "POST") {
     const topup = await stripe.topups.create({
       destination_balance: "issuing",
-      amount: 10000,
+      amount: 100,
       currency: "usd",
       description: "Top-up for Issuing",
       statement_descriptor: "Top-up",
