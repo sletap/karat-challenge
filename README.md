@@ -1,8 +1,9 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Karat Financial Take Home Challenge
 
 ## Getting Started
 
-First, run the development server:
+First, update `.env.local` with keys and a card id
+Second, run the development server:
 
 ```bash
 npm run dev
@@ -12,23 +13,43 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/{route}](http://localhost:3000/api/{route}). This endpoint can be edited in `pages/api/{route}.ts`.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+# Questions:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## How would I optimize load time more:
 
-## Learn More
+Use a cache! On first load, stores all of the information that we're displaying in redis. If we get more authorizations by clicking the `get more` button, we can store these in the cache as well
 
-To learn more about Next.js, take a look at the following resources:
+Now on a fresh new page load, display all of the information that we have in the cache, and then update both the cache and the page once we've done a fetch and seen whether there's more data that we need to show on the screen
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How much time did I spend?
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+probably somewhere around 15 hours, split up across multiple days
 
-## Deploy on Vercel
+It was my first time using Next, TypeScript, Chakra, and the Stripe API so there was a little bit of a fun learning curve there!
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Things I enjoyed:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Working with NextJS, Typescript and Stripe for the first time! These are all things that I've been wanting to try for a while but I hadn't spent the time to make it happen, so this was a great opportunity to do so!
+
+While I was refactoring parts of the backend, Typescript saved me time multiple times. For example, I changed a type definition, and I instantly knew which files I needed to make changes in because of type mismatches it warns me about!
+
+Things I did not enjoy:
+I thought that Stripe would have at least some sort of api to get common statistics, but I could find no such thing. As a result, I ended up using the metadata object to store useful info and manipulating that with webhooks. It feels a little dangerous to do it that way, but as long as the invariant is maintained, it will work as expected!
+
+## How else might you have improved your solution given more time?
+
+I'd think about being able to sort or filter the table in some way. It doesn't look like the ui library I used makes that super easy, but with the support of a helper library it would be doable.
+
+The caching of data as mentioned above
+
+Getting a code review from someone who is more familiar with typescript would be great to learn more about best practices as well!
+
+## Open Questions:
+
+Can a single card have charges in multiple currencies? I couldn't see an example of this nor could I add one from the console, but if this is true than the average and sum functions would need to be changed. This is definitely something that I would spend more time looking into if I worked on this project more!
+
+## Thank you!
+
+Thank you for taking the time to take a look at this! I'm happy to make changes and improvements based on your comments :)
