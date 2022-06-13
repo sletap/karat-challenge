@@ -21,16 +21,18 @@ export default function Statistic({
   return (
     <>
       <Flex
-        bg={"#f7f9fb"}
         direction="column"
         alignItems="center"
         justifyContent="center"
-        marginTop={10}
+        marginTop={20}
       >
-        <Text fontSize="4xl">{title}</Text>
-        {/* TODO: FIX ERROR */}
-        <Text fontSize="4xl">{data[stat]}</Text>
-        <Text fontSize="1xl">
+        <Text fontSize="4xl" align="center">
+          {title}
+        </Text>
+        <Text fontSize="4xl" align="center">
+          {data[stat]}
+        </Text>
+        <Text fontSize="1xl" align="center">
           <i>Based on {data.total_transactions} Transactions</i>
         </Text>
       </Flex>

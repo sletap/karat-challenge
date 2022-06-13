@@ -12,6 +12,8 @@
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@fontsource/lato": "^4.5.8",
+    "@fontsource/roboto": "^4.5.7",
     "@stripe/stripe-js": "^1.31.0",
     "chart.js": "^3.8.0",
     "currency-symbol-map": "^5.1.0",

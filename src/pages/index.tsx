@@ -17,13 +17,15 @@ const Home: NextPage = () => {
   if (error) return <div>Failed to load credit card</div>;
 
   return (
-    <Box bg={theme.colors.gray[100]}>
+    <Box bg={""}>
       <Head>
         <title>Karat Dashboard</title>
         <meta name="description" content="Karat Card Dashboard" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      <Box marginTop={10}>
+        <Header />
+      </Box>
       <Grid
         h={theme.sizes.container.sm}
         templateRows="repeat(2, 1fr)"
@@ -31,32 +33,27 @@ const Home: NextPage = () => {
         gap={5}
         margin={10}
       >
-        <GridItem
-          rowSpan={2}
-          colSpan={3}
-          borderRadius={40}
-          bg={theme.colors.gray[50]}
-        >
+        <GridItem rowSpan={2} colSpan={3} borderRadius={30} bg={""}>
           <DoughnutChart statistics={data} />
         </GridItem>
         <GridItem
           rowSpan={1}
           colSpan={1}
-          bg={theme.colors.gray[50]}
-          borderRadius={40}
+          bg={theme.colors.blackAlpha[500]}
+          borderRadius={30}
         >
           <Statistic title="Total Spend" data={data} stat="total_spend" />
         </GridItem>
         <GridItem
           rowSpan={1}
           colSpan={1}
-          bg={theme.colors.gray[50]}
-          borderRadius={40}
+          bg={theme.colors.blackAlpha[500]}
+          borderRadius={30}
         >
           <Statistic title="Average Spend" data={data} stat="average_spend" />
         </GridItem>
       </Grid>
-      <Box margin={10} bg={theme.colors.gray[50]}>
+      <Box margin={10} bg={theme.colors.blackAlpha[500]}>
         <AuthorizationsTable />
       </Box>
     </Box>
