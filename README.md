@@ -8,9 +8,10 @@
 
 2. update `.env.local` with stripe keys and a stripe card id. The secret key can be retrieved [here](https://dashboard.stripe.com/test/apikeys). The webhook key can be found using the above `stripe listen` command, and CARD_ID takes any card_id (I've included two for testing purposes!)
 
-3. run the development server!
+3. install dependencies and run the development server!
 
 ```bash
+npm install
 npm run dev
 ```
 
