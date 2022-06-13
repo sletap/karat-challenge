@@ -20,6 +20,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ![Dashboard Gif](https://media.giphy.com/media/6MXCuuo86CjFl7x9yf/giphy.gif)
 
+<img width="1919" alt="image" src="https://user-images.githubusercontent.com/34560634/173299934-bfb60c68-0c6c-4861-8e71-3801cb2b211b.png">
+<img width="1917" alt="image" src="https://user-images.githubusercontent.com/34560634/173299992-a4d24355-cfeb-4054-899c-d9146fafb1cd.png">
+
 # Questions:
 
 ## How would I optimize load time more:
