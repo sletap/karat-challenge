@@ -6,9 +6,9 @@
 
 1. run `stripe listen --forward-to localhost:3000/api/getStripeWebhooks`
 
-2. update `.env.local` with stripe keys and a stripe card id. Get the webhook key from the above command (I have these pre-set in the env.local file for quick testing purposes, but these are for convenience and some of them would be removed if this repo were to ever become public)
+2. update `.env.local` with stripe keys and a stripe card id. The secret key can be retrieved [here](https://dashboard.stripe.com/test/apikeys). The webhook key can be found using the above `stripe listen` command, and the CARD_ID takes any card_id (I've included one for testing purposes)
 
-3. run the development server:
+3. run the development server!
 
 ```bash
 npm run dev
@@ -30,7 +30,7 @@ Now on a fresh new page load, display all of the information that we have in the
 
 ## How much time did I spend?
 
-probably somewhere around 15 hours, split up across a couple days
+probably somewhere around 15 hours, split up across a few days
 
 It was my first time using Next, TypeScript, Chakra, and the Stripe API so there was a little bit of a fun learning curve there!
 
