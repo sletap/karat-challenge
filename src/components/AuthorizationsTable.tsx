@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   TableContainer,
   Table,
@@ -14,6 +14,7 @@ import {
   Skeleton,
   Spinner,
   Box,
+  Text,
 } from "@chakra-ui/react";
 import { Authorizations } from "src/utils/Types";
 import fetcher from "src/utils/fetcher";
@@ -33,7 +34,14 @@ export default function AuthorizationsTable() {
     useSWRInfinite<Authorizations>(getKey, fetcher);
 
   const [canLoadMore, setCanLoadMore] = React.useState(true);
-  if (error) return <div>Failed to load credit card</div>;
+
+  useEffect(() => {
+    if (data && data[data.length - 1].has_more === false) {
+      setCanLoadMore(false);
+    }
+  }, [data]);
+
+  if (error) return <Text align="center">Failed to load information</Text>;
 
   if (data === undefined) {
     return (
@@ -54,29 +62,20 @@ export default function AuthorizationsTable() {
     }
 
     let final_list = [];
-    for (let i = 0; i < size; i++) {
-      try {
-        let iteration = data[i].authorizations.map((auth) => (
-          <Tr key={auth.id}>
-            <Td> {auth.created} </Td>
-            <Td> {auth.merchant_data.name} </Td>
-            <Td> {auth.merchant_data.city} </Td>
-            <Td> {auth.approved ? "Approved" : "Declined"} </Td>
-            <Td isNumeric> {auth.amount} </Td>
-          </Tr>
-        ));
-        final_list.push(...iteration);
-      } catch (error) {} // hacky?
+    let max_size = isValidating ? size - 1 : size;
+    for (let i = 0; i < max_size; i++) {
+      let iteration = data[i].authorizations.map((auth) => (
+        <Tr key={auth.id}>
+          <Td> {auth.created} </Td>
+          <Td> {auth.merchant_data.name} </Td>
+          <Td> {auth.merchant_data.city} </Td>
+          <Td> {auth.approved ? "Approved" : "Declined"} </Td>
+          <Td isNumeric> {auth.amount} </Td>
+        </Tr>
+      ));
+      final_list.push(...iteration);
     }
     return final_list;
-  };
-
-  const loadMoreAuthorizations = () => {
-    if (data[data.length - 1].has_more) {
-      setSize(size + 1);
-    } else {
-      setCanLoadMore(false);
-    }
   };
 
   return (
@@ -109,10 +108,10 @@ export default function AuthorizationsTable() {
         <Button
           isDisabled={!canLoadMore}
           width="100%"
-          onClick={loadMoreAuthorizations}
+          onClick={() => setSize(size + 1)}
         >
           {canLoadMore ? "LOAD MORE AUTHORIZATIONS" : "ALL DATA LOADED"}
-          <Box marginLeft={2}>{isValidating && <Spinner />}</Box>
+          <Box marginLeft={2}> {isValidating && <Spinner />} </Box>
         </Button>
       </TableContainer>
     </>
