@@ -1,6 +1,6 @@
 import React from "react";
-import { Center, Flex, Skeleton, Spinner, Stack, Text } from "@chakra-ui/react";
-import { CardStatistics, CategoryMap } from "src/utils/Types";
+import { Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { CardStatistics } from "src/utils/Types";
 
 export default function Statistic({
   title,
