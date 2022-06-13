@@ -6,7 +6,7 @@
 
 1. run `stripe listen --forward-to localhost:3000/api/getStripeWebhooks`
 
-2. update `.env.local` with stripe keys and a stripe card id. The secret key can be retrieved [here](https://dashboard.stripe.com/test/apikeys). The webhook key can be found using the above `stripe listen` command, and the CARD_ID takes any card_id (I've included one for testing purposes)
+2. update `.env.local` with stripe keys and a stripe card id. The secret key can be retrieved [here](https://dashboard.stripe.com/test/apikeys). The webhook key can be found using the above `stripe listen` command, and CARD_ID takes any card_id (I've included two for testing purposes!)
 
 3. run the development server!
 
