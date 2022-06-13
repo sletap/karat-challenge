@@ -10,7 +10,7 @@ export default async function handler(
 ) {
   const { startAfterId } = req.query;
   if (req.method == "GET") {
-    // get 50 authorizations, which is a reasonable amount
+    // get 50 authorizations, only get more if user prompts us to
     // max is 100 per call
     const maxAuths: any = await stripe.issuing.authorizations.list({
       limit: 50,
@@ -20,6 +20,7 @@ export default async function handler(
     const authorizations: Stripe.Issuing.Authorization[] = maxAuths.data;
     const relevantAuthorizations: Authorization[] = [];
 
+    // populate Authorization object and push
     authorizations.forEach((item) => {
       const transaction: Authorization = {
         id: item.id,
@@ -32,6 +33,7 @@ export default async function handler(
       relevantAuthorizations.push(transaction);
     });
 
+    // if there's still more data to be loaded, has_more is true
     return res.status(200).json({
       has_more: maxAuths.has_more,
       authorizations: relevantAuthorizations,

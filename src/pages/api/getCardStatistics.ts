@@ -28,7 +28,6 @@ export default async function handler(
     }
 
     // set statistics
-
     const cardStatistics: CardStatistics = {
       total_transactions: +metadata.total_transactions,
       total_spend: getMoneyInReadableForm(

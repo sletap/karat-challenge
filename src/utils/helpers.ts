@@ -1,6 +1,9 @@
 import getSymbolFromCurrency from "currency-symbol-map";
 import { CategoryMap } from "./Types";
 
+// fetcher for
+export const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 // Gathered from Stripe Documentation
 const zeroDecimalCurrencies = new Set<string>([
   "BIF",
@@ -21,11 +24,13 @@ const zeroDecimalCurrencies = new Set<string>([
   "XPF",
 ]);
 
+// USD => false
+// JPY => true
 function isZeroDecimalCurrency(currency: string): boolean {
   return zeroDecimalCurrencies.has(currency);
 }
 
-// example: turns amusement_park into Amusement Park
+// amusement_park => Amusement Park
 export function snakeCaseToReadableString(str: string): string {
   return str
     .split("_")
@@ -33,6 +38,8 @@ export function snakeCaseToReadableString(str: string): string {
     .join(" ");
 }
 
+// 400 USD => $4.00
+// 400 JPY => ¥400
 export function getMoneyInReadableForm(currency: string, amount: number) {
   const symbol = getSymbolFromCurrency(currency);
   if (!isZeroDecimalCurrency(currency)) {
@@ -41,6 +48,7 @@ export function getMoneyInReadableForm(currency: string, amount: number) {
     return symbol + amount.toString();
   }
 }
+
 export function addCategoryToMap(category_map: CategoryMap, category: string) {
   if (category_map.hasOwnProperty(category)) {
     category_map[category] += 1;

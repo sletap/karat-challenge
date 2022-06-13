@@ -10,7 +10,7 @@ export default async function handler(
 ) {
   if (req.method == "POST") {
     // Loop through all transactions. The max is 100,
-    // so you may have to go through the object multiple times
+    // You may have to make a call for transactions multiple times
     let has_more = true;
     let startAfterId = undefined;
     const transactionsList: Stripe.Issuing.Transaction[] = [];
@@ -21,6 +21,7 @@ export default async function handler(
         starting_after: startAfterId,
       });
       transactionsList.push(...transactions.data);
+
       if (transactions.has_more == false) {
         has_more = false;
       } else {
@@ -45,12 +46,14 @@ export default async function handler(
       return addCategoryToMap(map, category);
     }, category_count);
 
+    // set up Metadata object and send it to Stripe
     const metadata: Metadata = {
       total_transactions: transactionsList.length.toString(),
       total_spend: total_spend.toString(),
       categories: JSON.stringify(category_count),
     };
 
+    // push metadata to stripe
     await stripe.issuing.cards.update(process.env.CARD_ID, {
       metadata: metadata,
     });

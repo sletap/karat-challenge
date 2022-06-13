@@ -45,8 +45,6 @@ export default async function handler(
       // get metadata
       const cardObject: Stripe.Issuing.Card =
         await stripe.issuing.cards.retrieve(process.env.CARD_ID);
-
-      // update metadata
       const metadata: Metadata = cardObject.metadata as Metadata;
 
       // the metadata has to be in string form
@@ -64,7 +62,7 @@ export default async function handler(
         addCategoryToMap(category_map, category)
       );
 
-      // push metadata
+      // push metadata to stripe
       await stripe.issuing.cards.update(process.env.CARD_ID, {
         metadata: metadata,
       });

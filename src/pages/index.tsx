@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import useSwr from "swr";
 import AuthorizationsTable from "src/components/AuthorizationsTable";
-import fetcher from "src/utils/fetcher";
+import { fetcher } from "src/utils/helpers";
 import DoughnutChart from "src/components/DoughnutChart";
 import { CardStatistics } from "src/utils/Types";
 import Header from "src/components/Header";

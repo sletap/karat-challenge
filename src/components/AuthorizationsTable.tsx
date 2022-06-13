@@ -17,7 +17,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Authorizations } from "src/utils/Types";
-import fetcher from "src/utils/fetcher";
+import { fetcher } from "src/utils/helpers";
 import useSWRInfinite from "swr/infinite";
 
 const getKey = (pageIndex: number, previousPageData: Authorizations) => {
