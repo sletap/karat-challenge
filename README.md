@@ -2,9 +2,11 @@
 
 ## Getting Started
 
+0. Install the [stripe CLI tool](https://stripe.com/docs/stripe-cli) if you haven't already!
+
 1. run `stripe listen --forward-to localhost:3000/api/getStripeWebhooks`
 
-2. update `.env.local` with keys and a card id. Get the webhook key from the above command (I have these set in the env.local file for quick testing purposes)
+2. update `.env.local` with stripe keys and a stripe card id. Get the webhook key from the above command (I have these pre-set in the env.local file for quick testing purposes, but these are for convenience and some of them would be removed if this repo were to ever become public)
 
 3. run the development server:
 
@@ -14,15 +16,17 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the dashboard!
 
 [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/{route}](http://localhost:3000/api/{route}). This endpoint can be edited in `pages/api/{route}.ts`.
+
+![Dashboard Gif](https://media.giphy.com/media/6MXCuuo86CjFl7x9yf/giphy.gif)
 
 # Questions:
 
 ## How would I optimize load time more:
 
-Use a cache! On first load, stores all of the information that we're displaying in redis. If we get more authorizations by clicking the `get more` button, we can store these in the cache as well
+Use a cache! On first load, store all of the information that we're displaying in redis. If we get more authorizations by clicking the `get more` button, we can store these in the cache as well
 
 Now on a fresh new page load, display all of the information that we have in the cache, and then update both the cache and the page once we've done a fetch and seen whether there's more data that we need to show on the screen
 
@@ -39,7 +43,7 @@ Working with NextJS, Typescript and Stripe for the first time! These are all thi
 While I was refactoring parts of the backend, Typescript saved me time multiple times. For example, I changed a type definition, and I instantly knew which files I needed to make changes in because of type mismatches it warns me about!
 
 Things I did not enjoy:
-I thought that Stripe would have at least some sort of api to get common statistics, but I could find no such thing. As a result, I ended up using the metadata object to store useful info and manipulating that with webhooks. It feels a little dangerous to do it that way, but as long as the invariant is maintained, it will work as expected!
+I thought that Stripe would have some sort of api to get common statistics, but I could find no such thing. As a result, I ended up using the metadata object to store useful info and manipulating that with webhooks.
 
 ## How else might you have improved your solution given more time?
 
@@ -49,7 +53,7 @@ The caching of data as mentioned above
 
 Getting a code review from someone who is more familiar with typescript would be great to learn more about best practices as well!
 
-Writing tests -- I would definitely write them if this were to go out in production, but didn't in the interest of time. Can definitely do this as a follow up if required!
+Writing tests -- I would definitely write them if this were to go out in production, but didn't in the interest of time. Would definitely do this as a follow up if required!
 
 ## Open Questions:
 
@@ -58,9 +62,3 @@ Can a single card have charges in multiple currencies? I couldn't see an example
 ## Thank you!
 
 Thank you for taking the time to take a look at this! I'm happy to make changes and improvements based on your comments :)
-
-<!-- NOTES -->
-<!-- TEST A CARD WITH NO TRANSACTIONS  -->
-<!-- TEST A CARD WITH NO AUTHORIZATIONS -->
-<!-- TEST A CARD WITH NO AUTHORIZATIONS AND NO TRANSACTIONS -->
-<!-- TEST A CARD WITH NON USD CURRENCY -->
