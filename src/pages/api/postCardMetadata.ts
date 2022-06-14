@@ -37,7 +37,6 @@ export default async function handler(
       };
       return res.status(200).json(metadata);
     }
-    console.log(transactionsList);
 
     // get amount spent
     const total_spend: number = transactionsList
