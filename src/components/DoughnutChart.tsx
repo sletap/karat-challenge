@@ -20,9 +20,9 @@ export default function DoughnutChart({
     );
   }
 
-  if (statistics.total_transactions === 0) {
-    return <Center>No Categories of Transactions Available!</Center>;
-  }
+  const hasTransactions = () => {
+    return statistics.total_transactions > 0;
+  };
 
   const getCategories = () => {
     const categories = statistics.categories;
@@ -56,11 +56,11 @@ export default function DoughnutChart({
   ];
 
   const data = {
-    labels: getCategories(),
+    labels: hasTransactions() ? getCategories() : ["No Transactions"],
     datasets: [
       {
-        label: "# of Votes",
-        data: getCategoryTotal(),
+        label: "# of Transactions",
+        data: hasTransactions() ? getCategoryTotal() : [1],
         backgroundColor: colors,
         borderColor: colors,
         borderWidth: 1,

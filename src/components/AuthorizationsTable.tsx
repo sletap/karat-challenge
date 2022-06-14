@@ -34,7 +34,6 @@ export default function AuthorizationsTable() {
     useSWRInfinite<Authorizations>(getKey, fetcher);
 
   const [canLoadMore, setCanLoadMore] = React.useState(true);
-
   useEffect(() => {
     if (data && data[data.length - 1].has_more === false) {
       setCanLoadMore(false);
@@ -78,6 +77,18 @@ export default function AuthorizationsTable() {
     return final_list;
   };
 
+  const Headings = () => {
+    return (
+      <Tr>
+        <Th>Date</Th>
+        <Th>Description</Th>
+        <Th>City</Th>
+        <Th>Status</Th>
+        <Th isNumeric>Amount</Th>
+      </Tr>
+    );
+  };
+
   return (
     <>
       <TableContainer>
@@ -85,25 +96,13 @@ export default function AuthorizationsTable() {
           <TableCaption placement="top">
             All Authorizations On Your Card
           </TableCaption>
-          <Thead>
-            <Tr>
-              <Th>Date</Th>
-              <Th>Description</Th>
-              <Th>City</Th>
-              <Th>Status</Th>
-              <Th isNumeric>Amount</Th>
-            </Tr>
-          </Thead>
-          <Tbody>{TableContents()}</Tbody>
-          <Tfoot>
-            <Tr>
-              <Th>Date</Th>
-              <Th>Description</Th>
-              <Th>City</Th>
-              <Th>Status</Th>
-              <Th isNumeric>Amount</Th>
-            </Tr>
-          </Tfoot>
+          <Thead>{Headings()}</Thead>
+          {data[0].authorizations.length !== 0 && (
+            <>
+              <Tbody>{TableContents()}</Tbody>
+              <Tfoot>{Headings()}</Tfoot>
+            </>
+          )}
         </Table>
         <Button
           isDisabled={!canLoadMore}
