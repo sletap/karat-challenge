@@ -29,6 +29,15 @@ export default async function handler(
         startAfterId = transactionsList[finalIndex].id;
       }
     }
+    if (transactionsList.length == 0) {
+      const metadata: Metadata = {
+        total_transactions: transactionsList.length.toString(),
+        total_spend: "0",
+        categories: "{}",
+      };
+      return res.status(200).json(metadata);
+    }
+    console.log(transactionsList);
 
     // get amount spent
     const total_spend: number = transactionsList

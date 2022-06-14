@@ -3,7 +3,7 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { CardStatistics } from "src/utils/Types";
 import { snakeCaseToReadableString } from "src/utils/helpers";
-import { Stack, Skeleton } from "@chakra-ui/react";
+import { Stack, Skeleton, Center } from "@chakra-ui/react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -18,6 +18,10 @@ export default function DoughnutChart({
         <Skeleton height="640px" />
       </Stack>
     );
+  }
+
+  if (statistics.total_transactions === 0) {
+    return <Center>No Categories of Transactions Available!</Center>;
   }
 
   const getCategories = () => {

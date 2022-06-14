@@ -28,6 +28,10 @@ export default async function handler(
     }
 
     // set statistics
+    let average_spend = 0;
+    if (+metadata.total_transactions > 0) {
+      average_spend = +metadata.total_spend / +metadata.total_transactions;
+    }
     const cardStatistics: CardStatistics = {
       total_transactions: +metadata.total_transactions,
       total_spend: getMoneyInReadableForm(
@@ -40,7 +44,7 @@ export default async function handler(
       // then make the precision to 2 decimal places
       average_spend: getMoneyInReadableForm(
         cardObject.currency,
-        Math.abs(+metadata.total_spend / +metadata.total_transactions)
+        Math.abs(average_spend)
       ),
 
       // string of a map to object
